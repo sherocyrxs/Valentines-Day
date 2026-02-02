@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+
+    <!-- Optimisation iPhone -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+
+    <title>Saint-Valentin 💖</title>
+
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 22px;
+            text-align: center;
+            width: 90%;
+            max-width: 360px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            z-index: 2;
+        }
+
+        h1 {
+            color: #e91e63;
+            font-size: 1.4rem;
+        }
+
+        .buttons {
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 16px 32px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 30px;
+            margin: 10px;
+            cursor: pointer;
+        }
+
+        .yes {
+            background-color: #e91e63;
+            color: white;
+        }
+
+        .no {
+            background-color: #ccc;
+            color: #333;
+            position: fixed;
+            z-index: 10;
+        }
+
+        .result {
+            display: none;
+            margin-top: 20px;
+        }
+
+        img {
+            width: 180px;
+            border-radius: 15px;
+        }
+
+        .text {
+            margin-top: 10px;
+            font-size: 1rem;
+            color: #555;
+        }
+
+        /* 💖 COEURS */
+        .heart {
+            position: fixed;
+            bottom: -20px;
+            font-size: 24px;
+            animation: floatUp 4s ease-in forwards;
+            pointer-events: none;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-110vh) scale(1.8);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h1>
+        <span id="prenom">Ma Liona</span>,<br>
+        veux-tu être ma Valentine ? 💕
+    </h1>
+
+    <div class="buttons">
+        <button class="yes" onclick="showLove()">Bien sur que Ouiiiii 💖</button>
+    </div>
+
+    <div class="result" id="result">
+        <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExaWtwY3d2b2V0cDB1eXVsdDZqMTgzYWNmcWxjMjlnNjhkOGN5bWY0NiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/jibu2TcJEq0ik/giphy.gif">
+        <div class="text">
+            Merci ma femme c'est ça j'ai dit !!! 🥰  
+            Je te promets plein d’amour, de rires et de moments magiques comme on a toujours su en vivre ensemble.  
+            Je t'aime passionnément  
+            Ton épouse 💕
+        </div>
+    </div>
+</div>
+
+<button class="no" id="noBtn">Non dsl ma vie💔</button>
+
+<!-- 🎵 MUSIQUE -->
+<audio id="loveSong" preload="auto">
+    <source src="my_favorite_part.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+    const noBtn = document.getElementById("noBtn");
+    const song = document.getElementById("loveSong");
+
+    function showLove() {
+        document.getElementById("result").style.display = "block";
+        noBtn.style.display = "none";
+
+        // 🎶 Fade-in musical
+        song.volume = 0;
+        song.play();
+        fadeInMusic();
+
+        // 💖 Lancer les cœurs
+        launchHearts();
+    }
+
+    function fadeInMusic() {
+        let volume = 0;
+        const targetVolume = 0.6;
+        const step = 0.02; // vitesse du fade
+        const interval = setInterval(() => {
+            volume += step;
+            if (volume >= targetVolume) {
+                volume = targetVolume;
+                clearInterval(interval);
+            }
+            song.volume = volume;
+        }, 150);
+    }
+
+    function moveButton() {
+        const padding = 20;
+        const maxX = window.innerWidth - noBtn.offsetWidth - padding;
+        const maxY = window.innerHeight - noBtn.offsetHeight - padding;
+
+        noBtn.style.left = `${Math.random() * maxX}px`;
+        noBtn.style.top = `${Math.random() * maxY}px`;
+    }
+
+    noBtn.addEventListener("touchstart", (e) => {
+        e.preventDefault();
+        moveButton();
+    });
+
+    noBtn.addEventListener("mouseover", moveButton);
+    window.onload = moveButton;
+
+    /* 💖 LANCER LES COEURS */
+    function launchHearts() {
+        for (let i = 0; i < 25; i++) {
+            setTimeout(createHeart, i * 120);
+        }
+    }
+
+    function createHeart() {
+        const heart = document.createElement("div");
+        heart.classList.add("heart");
+        heart.innerText = "💖";
+
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.fontSize = (20 + Math.random() * 20) + "px";
+
+        document.body.appendChild(heart);
+
+        setTimeout(() => {
+            heart.remove();
+        }, 4000);
+    }
+</script>
+
+</body>
+</html>
