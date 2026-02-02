@@ -115,10 +115,10 @@
     <div class="result" id="result">
         <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExaWtwY3d2b2V0cDB1eXVsdDZqMTgzYWNmcWxjMjlnNjhkOGN5bWY0NiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/jibu2TcJEq0ik/giphy.gif">
         <div class="text">
-            Merci ma femme c'est ça j'ai dit !!! 🥰  
+            Merci ma femme c'est ça j'ai dis !!! 🥰  
             Je te promets plein d’amour, de rires et de moments magiques comme on a toujours su en vivre ensemble.  
             Je t'aime passionnément  
-            Ton épouse 💕
+               Ton épouse 💕
         </div>
     </div>
 </div>
@@ -134,23 +134,31 @@
     const noBtn = document.getElementById("noBtn");
     const song = document.getElementById("loveSong");
 
+    // 💖 Bouton Oui
     function showLove() {
         document.getElementById("result").style.display = "block";
         noBtn.style.display = "none";
 
-        // 🎶 Fade-in musical
+        // 🎵 Lecture musique avec fade-in iPhone
         song.volume = 0;
-        song.play();
-        fadeInMusic();
+        const playPromise = song.play();
+        if (playPromise !== undefined) {
+            playPromise
+                .then(() => fadeInMusic())
+                .catch((error) => console.log("Lecture bloquée par iOS : ", error));
+        } else {
+            fadeInMusic();
+        }
 
         // 💖 Lancer les cœurs
         launchHearts();
     }
 
+    // 🎵 Fade-in progressif
     function fadeInMusic() {
         let volume = 0;
         const targetVolume = 0.6;
-        const step = 0.02; // vitesse du fade
+        const step = 0.02;
         const interval = setInterval(() => {
             volume += step;
             if (volume >= targetVolume) {
@@ -161,6 +169,7 @@
         }, 150);
     }
 
+    // 💔 Bouton Non qui fuit
     function moveButton() {
         const padding = 20;
         const maxX = window.innerWidth - noBtn.offsetWidth - padding;
@@ -178,7 +187,7 @@
     noBtn.addEventListener("mouseover", moveButton);
     window.onload = moveButton;
 
-    /* 💖 LANCER LES COEURS */
+    // 💖 Cœurs animés
     function launchHearts() {
         for (let i = 0; i < 25; i++) {
             setTimeout(createHeart, i * 120);
